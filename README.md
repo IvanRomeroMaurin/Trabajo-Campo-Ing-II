@@ -1,115 +1,87 @@
-# 🚀 Trabajo Campo — Ingeniería II
+# 🚀 Modern Monorepo — Fullstack Store
 
-Monorepo fullstack que integra una aplicación web con **Next.js** y una API REST con **NestJS**, gestionado con **Turborepo** y **pnpm workspaces**.
+Este es un proyecto personal dedicado a la práctica y dominio de arquitecturas modernas y escalables en el ecosistema JavaScript/TypeScript. Se trata de un **Monorepo** que implementa una tienda virtual completa, integrando un frontend robusto con un backend modular.
 
 ---
 
-## 📦 Stack tecnológico
+## 🏗️ Arquitectura y Metodologías
+
+El proyecto destaca por el uso de patrones de diseño avanzados:
+
+- **Feature-Sliced Design (FSD)**: En `apps/web` se implementa esta arquitectura para garantizar la modularidad, mantenibilidad y escalabilidad del frontend.
+- **Clean Architecture Principles**: El backend (`apps/api`) sigue principios de modularidad y separación de capas para facilitar la evolución del sistema.
+- **Shared Package Pattern**: Tipado unificado mediante un paquete de tipos compartido (`@repo/types`).
+
+---
+
+## 📦 Stack Tecnológico
 
 | Herramienta | Rol |
 |---|---|
-| [Next.js](https://nextjs.org/) | Frontend — React framework con SSR/SSG |
-| [NestJS](https://nestjs.com/) | Backend — API REST modular y escalable |
-| [Turborepo](https://turbo.build/) | Orquestador de tareas del monorepo |
-| [pnpm](https://pnpm.io/) | Gestor de paquetes con workspaces |
-| [TypeScript](https://www.typescriptlang.org/) | Tipado estático en todo el stack |
+| [Next.js 15+](https://nextjs.org/) | **Frontend** — React con App Router y Server Components |
+| [NestJS](https://nestjs.com/) | **Backend** — API REST modular y escalable |
+| [Supabase Auth](https://supabase.com/auth) | **Autenticación** — Gestión de sesiones, login y registro |
+| [Prisma ORM](https://www.prisma.io/) | **Base de Datos** — Gestión de esquemas (`auth` y `public`) y consultas |
+| [Turborepo](https://turbo.build/) | **Orquestador** — Gestión inteligente de tareas y cache en el monorepo |
+| [pnpm](https://pnpm.io/) | **Package Manager** — Gestión eficiente de dependencias con workspaces |
+| [PostgreSQL](https://www.postgresql.org/) | **Persistence** — Base de datos relacional robusta |
 
 ---
 
-## 🗂️ Estructura del proyecto
+## 🗂️ Estructura del Monorepo
 
 ```
 my-monorepo/
 ├── apps/
-│   ├── web/          # Aplicación Next.js → localhost:3000
-│   └── api/          # API NestJS        → localhost:3001
-├── package.json      # Scripts raíz + devDependencies compartidas
-├── pnpm-workspace.yaml
-├── turbo.json        # Configuración de pipelines de Turborepo
-└── .gitignore
+│   ├── web/          # Frontend Next.js (Architecture-driven / FSD)
+│   └── api/          # Backend NestJS (Modular Architecture)
+├── packages/
+│   └── types/        # Tipos de TypeScript compartidos (@repo/types)
+├── turbo.json        # Configuración de pipelines
+└── pnpm-workspace.yaml
 ```
 
 ---
 
-## ⚙️ Primeros pasos
+## ⚙️ Primeros Pasos
 
 ### Prerrequisitos
-
-- [Node.js](https://nodejs.org/) v18 o superior
-- [pnpm](https://pnpm.io/installation) v8 o superior
-
-```bash
-npm install -g pnpm
-```
+- [Node.js](https://nodejs.org/) v18+
+- [pnpm](https://pnpm.io/) v8+
 
 ### Instalación
-
-Cloná el repositorio e instalá las dependencias desde la raíz:
-
 ```bash
+# Clonar e instalar
 git clone https://github.com/IvanRomeroMaurin/Trabajo-Campo-Ing-II.git
 cd Trabajo-Campo-Ing-II
 pnpm install
 ```
 
----
-
-## 🧑‍💻 Levantar el proyecto en desarrollo
-
-Desde la raíz del monorepo, ejecutá:
-
+### Desarrollo
+Para levantar todo el entorno (Web + API) en paralelo:
 ```bash
 pnpm dev
 ```
 
-Turborepo correrá en paralelo todos los servidores de desarrollo:
-
 | App | URL |
 |---|---|
-| **web** (Next.js) | [http://localhost:3000](http://localhost:3000) |
-| **api** (NestJS) | [http://localhost:3001](http://localhost:3001) |
+| **Frontend** | [http://localhost:3000](http://localhost:3000) |
+| **Backend** | [http://localhost:3001](http://localhost:3001) |
 
 ---
 
-## 🛠️ Scripts disponibles
+## 🛠️ Scripts Clave
 
-| Comando | Descripción |
-|---|---|
-| `pnpm dev` | Levanta todas las apps en modo desarrollo |
-| `pnpm build` | Compila todas las apps para producción |
-| `pnpm lint` | Ejecuta el linter en todo el monorepo |
-| `pnpm db:generate` | Genera el cliente de base de datos (Prisma) |
-| `pnpm db:migrate` | Ejecuta migraciones de base de datos |
-
-Para ejecutar un script en una app específica:
-
-```bash
-pnpm --filter web dev
-pnpm --filter api dev
-```
+- `pnpm dev`: Inicia el modo desarrollo.
+- `pnpm build`: Compila para producción.
+- `pnpm lint`: Ejecuta el análisis estático.
+- `pnpm db:generate`: Regenera el cliente de Prisma.
 
 ---
 
-## 📚 Apps
+## 📄 Notas de Implementación
 
-### `apps/web` — Frontend (Next.js)
-
-Aplicación React con renderizado del lado del servidor. Consume la API REST provista por `apps/api`.
-
-### `apps/api` — Backend (NestJS)
-
-API REST construida sobre arquitectura modular de NestJS. Expone los endpoints que consume el frontend.
-
----
-
-## 🤝 Contribuciones
-
-1. Creá una rama desde `main`: `git checkout -b feat/nombre-feature`
-2. Realizá tus cambios y commiteá siguiendo [Conventional Commits](https://www.conventionalcommits.org/)
-3. Abrí un Pull Request hacia `main`
-
----
-
-## 📄 Licencia
-
-Este proyecto fue desarrollado para la materia **Ingeniería de Software II**.
+Este proyecto se utiliza como laboratorio para implementar:
+- **Auth Flow**: Registro con confirmación de email y redirección segura.
+- **Database Synchronization**: Sincronización automática de perfiles entre `auth.users` y `public.users` mediante triggers de PostgreSQL.
+- **Server Actions**: Manejo eficiente de lógica de servidor directamente desde los componentes de Next.js.
