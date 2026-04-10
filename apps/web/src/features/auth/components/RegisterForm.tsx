@@ -3,8 +3,17 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { register } from '../actions/register'
-import { Button } from '@/shared/components/ui/Button'
-import { Input } from '@/shared/components/ui/Input'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 export function RegisterForm() {
   const [error, setError] = useState<string | null>(null)
@@ -39,115 +48,80 @@ export function RegisterForm() {
 
   if (success) {
     return (
-      <div className="w-full max-w-md p-10 space-y-8 bg-white rounded-2xl shadow-xl border border-gray-100 text-center">
-        <div className="flex justify-center mb-4">
-          <div className="p-4 bg-green-50 rounded-full">
-            <svg className="w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-            </svg>
-          </div>
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900">Verifica tu correo</h2>
-        <p className="text-gray-500 leading-relaxed">
-          Hemos enviado un enlace de confirmación a tu correo electrónico para activar tu cuenta.
-        </p>
-        <div className="pt-4">
-          <Link href="/login" className="text-blue-600 hover:text-blue-700 font-bold">
-            Volver al inicio de sesión
+      <Card className="w-full max-w-sm border-border text-center">
+        <CardHeader className="space-y-2">
+          <CardTitle className="text-xl font-light tracking-wide">Revisá tu email</CardTitle>
+          <CardDescription className="text-xs tracking-wide text-muted-foreground">
+            Te enviamos un enlace de confirmación para activar tu cuenta.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter className="justify-center pt-0">
+          <Link href="/login" className="text-xs tracking-widest uppercase text-foreground hover:underline underline-offset-4">
+            Volver a iniciar sesión
           </Link>
-        </div>
-      </div>
+        </CardFooter>
+      </Card>
     )
   }
 
   return (
-    <div className="w-full max-w-md p-10 space-y-8 bg-white rounded-2xl shadow-xl border border-gray-100 text-gray-900">
-      <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-900">Crear cuenta</h2>
-        <p className="text-gray-500">Únete a nuestra comunidad hoy mismo</p>
-      </div>
-
-      {error && (
-        <div className="p-4 text-sm text-red-600 bg-red-50 border border-red-100 rounded-lg">
-          {error}
-        </div>
-      )}
-
-      <form className="space-y-6" onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 pb-1.5" htmlFor="name">
-              Nombre completo
-            </label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              autoComplete="name"
-              required
-              placeholder="Juan Pérez"
-              className="bg-gray-50/50"
-            />
+    <form onSubmit={handleSubmit}>
+      <Card className="w-full max-w-sm border-border">
+        <CardHeader className="space-y-1 pb-6">
+          <CardTitle className="text-xl font-light tracking-wide">
+            Crear cuenta
+          </CardTitle>
+          <CardDescription className="text-xs tracking-wide">
+            Completá tus datos para registrarte
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {error && (
+            <p className="text-xs text-destructive border border-destructive/20 bg-destructive/5 px-3 py-2">
+              {error}
+            </p>
+          )}
+          <div className="space-y-1.5">
+            <Label htmlFor="name" className="text-xs tracking-widest uppercase">
+              Nombre
+            </Label>
+            <Input id="name" name="name" type="text" required placeholder="Juan Perez" />
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 pb-1.5" htmlFor="phone">
+          <div className="space-y-1.5">
+            <Label htmlFor="phone" className="text-xs tracking-widest uppercase">
               Teléfono
-            </label>
-            <Input
-              id="phone"
-              name="phone"
-              type="tel"
-              autoComplete="tel"
-              required
-              placeholder="+54 9 11 1234 5678"
-              className="bg-gray-50/50"
-            />
+            </Label>
+            <Input id="phone" name="phone" type="tel" required placeholder="+54 9 11 1234 5678" />
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 pb-1.5" htmlFor="email">
-              Correo electrónico
-            </label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              placeholder="nombre@ejemplo.com"
-              className="bg-gray-50/50"
-            />
+          <div className="space-y-1.5">
+            <Label htmlFor="email" className="text-xs tracking-widest uppercase">
+              Email
+            </Label>
+            <Input id="email" name="email" type="email" required placeholder="nombre@ejemplo.com" />
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 pb-1.5" htmlFor="password">
+          <div className="space-y-1.5">
+            <Label htmlFor="password" className="text-xs tracking-widest uppercase">
               Contraseña
-            </label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="new-password"
-              required
-              placeholder="••••••••"
-              className="bg-gray-50/50"
-            />
+            </Label>
+            <Input id="password" name="password" type="password" required placeholder="••••••••" />
           </div>
-        </div>
-
-        <Button
-          type="submit"
-          className="w-full py-6 text-base font-semibold transition-all hover:scale-[1.01]"
-          disabled={loading}
-        >
-          {loading ? 'Creando cuenta...' : 'Crear cuenta'}
-        </Button>
-      </form>
-
-      <p className="text-center text-sm text-gray-600">
-        ¿Ya tienes una cuenta?{' '}
-        <Link href="/login" className="font-bold text-blue-600 hover:text-blue-700 transition-colors">
-          Inicia sesión
-        </Link>
-      </p>
-    </div>
+        </CardContent>
+        <CardFooter className="flex flex-col gap-4 pt-2">
+          <Button
+            type="submit"
+            className="w-full text-xs tracking-widest uppercase font-light"
+            disabled={loading}
+          >
+            {loading ? 'Creando cuenta...' : 'Crear cuenta'}
+          </Button>
+          <p className="text-xs text-muted-foreground text-center">
+            ¿Ya tenés cuenta?{' '}
+            <Link href="/login" className="text-foreground hover:underline underline-offset-4">
+              Iniciar sesión
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
+    </form>
   )
 }

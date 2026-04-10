@@ -7,26 +7,22 @@ export default async function Navbar() {
   const { data: { user } } = await supabase.auth.getUser()
 
   return (
-    <header className="sticky top-0 z-40 bg-white border-b border-gray-100">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-
-        {/* Logo */}
-        <Link href="/" className="font-semibold text-gray-900 text-lg">
+    <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <Link href="/" className="text-sm font-medium tracking-widest uppercase text-foreground">
           MiTienda
         </Link>
 
-        {/* Links de navegación */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href="/" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+        <nav className="hidden md:flex items-center gap-10">
+          <Link href="/" className="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
             Inicio
           </Link>
-          <Link href="/products" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">
+          <Link href="/products" className="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">
             Productos
           </Link>
         </nav>
 
-        {/* Auth */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           {user ? (
             <NavbarClient
               user={{
@@ -38,20 +34,19 @@ export default async function Navbar() {
             <>
               <Link
                 href="/login"
-                className="text-sm text-gray-500 hover:text-gray-900 transition-colors"
+                className="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
               >
                 Iniciar sesión
               </Link>
               <Link
                 href="/register"
-                className="text-sm bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+                className="text-xs tracking-widest uppercase bg-primary text-primary-foreground px-4 py-2 hover:opacity-90 transition-opacity"
               >
                 Registrarse
               </Link>
             </>
           )}
         </div>
-
       </div>
     </header>
   )

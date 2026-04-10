@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useState, useTransition } from 'react'
-import { Button } from '@/shared/components/ui/Button'
-import { Input } from '@/shared/components/ui/Input'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { updateProfileAction } from '../actions/updateProfile'
 import type { UserProfile, UpdateProfileDto } from '../types/profile.types'
 
@@ -40,10 +41,10 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <label htmlFor="name" className="text-sm font-medium text-gray-700">
+      <div className="space-y-1.5">
+        <Label htmlFor="name" className="text-xs tracking-widest uppercase">
           Nombre completo
-        </label>
+        </Label>
         <Input
           id="name"
           name="name"
@@ -55,10 +56,10 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
         />
       </div>
 
-      <div className="space-y-2">
-        <label htmlFor="phone" className="text-sm font-medium text-gray-700">
+      <div className="space-y-1.5">
+        <Label htmlFor="phone" className="text-xs tracking-widest uppercase">
           Teléfono
-        </label>
+        </Label>
         <Input
           id="phone"
           name="phone"
@@ -71,14 +72,12 @@ export function ProfileForm({ initialData }: ProfileFormProps) {
       </div>
 
       {message && (
-        <div className={`p-3 rounded-md text-sm ${
-          message.type === 'success' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'
-        }`}>
+        <div className={message.type === 'success' ? 'text-xs text-muted-foreground' : 'text-xs text-destructive'}>
           {message.text}
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isPending}>
+      <Button type="submit" className="text-xs tracking-widest uppercase w-full" disabled={isPending}>
         {isPending ? 'Guardando...' : 'Guardar cambios'}
       </Button>
     </form>
