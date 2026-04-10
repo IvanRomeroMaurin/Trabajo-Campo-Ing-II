@@ -22,6 +22,7 @@ import { PostalCodesModule } from './modules/postal-codes/postal-codes.module';
 import { PaymentMethodsModule } from './modules/payment-methods/payment-methods.module';
 import { PaymentStatusesModule } from './modules/payment-statuses/payment-statuses.module';
 import { OrderStatusesModule } from './modules/order-statuses/order-statuses.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { OrderStatusesModule } from './modules/order-statuses/order-statuses.mod
     PaymentMethodsModule,
     PaymentStatusesModule,
     OrderStatusesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

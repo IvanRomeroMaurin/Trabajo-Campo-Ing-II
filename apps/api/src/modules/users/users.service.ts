@@ -11,6 +11,12 @@ export class UsersService {
     return this.prisma.users.findMany();
   }
 
+  async findById(id: string) {
+    const record = await this.prisma.users.findUnique({ where: { id } as any });
+    if (!record) throw new NotFoundException(`User #${id} not found`);
+    return record;
+  }
+
   async findOne(id: string) {
     const user = await this.prisma.users.findUnique({ where: { id } });
     if (!user) throw new NotFoundException(`User #${id} not found`);
@@ -22,8 +28,8 @@ export class UsersService {
   }
 
   async update(id: string, dto: UpdateUserDto) {
-    await this.findOne(id);
-    return this.prisma.users.update({ where: { id }, data: dto });
+    await this.findById(id);
+    return this.prisma.users.update({ where: { id } as any, data: dto as any });
   }
 
   async remove(id: string) {
