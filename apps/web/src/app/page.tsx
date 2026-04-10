@@ -15,24 +15,27 @@ export default async function HomePage() {
   return (
     <div className="pb-20">
       {/* Hero Section */}
-      <section className="relative h-[90vh] w-full flex items-center justify-center overflow-hidden">
+      <section className="relative h-[calc(100vh-5rem)] w-full flex items-center justify-center overflow-hidden">
         <Image
           src="/hero.png"
           alt="Minimalist Fashion Hero"
           fill
-          className="object-cover brightness-[0.7]"
+          className="object-cover brightness-[0.5]"
           priority
         />
+        {/* Dark Overlay for Legibility */}
+        <div className="absolute inset-0 bg-black/40 z-[5]" />
+        
         <div className="relative z-10 text-center space-y-8 px-6 max-w-5xl">
           <div className="space-y-4">
-            <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-white/80 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-white/90 drop-shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-1000">
               Nueva Colección 2026
             </p>
-            <h1 className="text-5xl md:text-8xl font-extralight tracking-tighter text-white leading-[0.9] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+            <h1 className="text-5xl md:text-8xl font-extralight tracking-tighter text-white drop-shadow-2xl leading-[0.9] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
               ESENCIA <br /> <span className="italic font-light">MINIMALISTA</span>
             </h1>
           </div>
-          <p className="text-sm md:text-base text-white/70 max-w-md mx-auto font-light leading-relaxed animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
+          <p className="text-sm md:text-base text-white/80 max-w-md mx-auto font-light leading-relaxed drop-shadow-md animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
             Descubrí piezas diseñadas para perdurar. Calidad impecable, estética atemporal.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-500">
@@ -55,7 +58,7 @@ export default async function HomePage() {
         </div>
         
         {/* Subtle Bottom Gradient */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent z-[6]" />
       </section>
 
       {/* Brand Values */}

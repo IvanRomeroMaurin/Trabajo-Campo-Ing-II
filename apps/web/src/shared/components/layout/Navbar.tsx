@@ -38,6 +38,12 @@ export default async function Navbar() {
           >
             Novedades
           </Link>
+          <Link 
+            href="/about" 
+            className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground transition-all hover:scale-105"
+          >
+            Nosotros
+          </Link>
         </nav>
 
         {/* Actions */}

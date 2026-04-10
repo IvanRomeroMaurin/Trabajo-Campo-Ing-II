@@ -20,30 +20,41 @@ export function CategoryFilter({ categories, selected }: CategoryFilterProps) {
   }
 
   return (
-    <div className="flex flex-wrap gap-2">
-      <button
-        onClick={() => handleFilter()}
-        className={`text-xs tracking-widest uppercase px-4 py-2 border transition-colors ${
-          !selected
-            ? 'bg-primary text-primary-foreground border-primary'
-            : 'bg-transparent text-muted-foreground border-border hover:border-foreground hover:text-foreground'
-        }`}
-      >
-        Todos
-      </button>
-      {categories.map((cat) => (
+    <div className="space-y-4">
+      <h3 className="text-[10px] tracking-[0.2em] font-semibold uppercase text-foreground mb-6">
+        Categorías
+      </h3>
+      <div className="flex flex-col gap-4">
         <button
-          key={cat.id}
-          onClick={() => handleFilter(cat.slug)}
-          className={`text-xs tracking-widest uppercase px-4 py-2 border transition-colors ${
-            selected === cat.slug
-              ? 'bg-primary text-primary-foreground border-primary'
-              : 'bg-transparent text-muted-foreground border-border hover:border-foreground hover:text-foreground'
+          onClick={() => handleFilter()}
+          className={`text-left text-xs tracking-[0.1em] transition-all duration-300 flex items-center justify-between group ${
+            !selected
+              ? 'text-foreground font-medium'
+              : 'text-muted-foreground hover:text-foreground'
           }`}
         >
-          {cat.name}
+          <span className="relative">
+            Todos
+            <span className={`absolute -bottom-1 left-0 h-[1px] bg-foreground transition-all duration-300 ${!selected ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+          </span>
         </button>
-      ))}
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            onClick={() => handleFilter(cat.slug)}
+            className={`text-left text-xs tracking-[0.1em] transition-all duration-300 flex items-center justify-between group ${
+              selected === cat.slug
+                ? 'text-foreground font-medium'
+                : 'text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <span className="relative">
+              {cat.name}
+              <span className={`absolute -bottom-1 left-0 h-[1px] bg-foreground transition-all duration-300 ${selected === cat.slug ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+            </span>
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
