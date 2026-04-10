@@ -4,6 +4,8 @@ import { Controller, UseGuards, Get, Post, Body, Patch, Param, Delete } from '@n
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Product } from './entities/product.entity';
+import { ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('products')
 @Controller('products')
@@ -18,6 +20,7 @@ export class ProductsController {
   }
 
   @Get()
+  @ApiResponse({ status: 200, type: Product, isArray: true })
   findAll() {
     return this.service.findAll();
   }
@@ -25,6 +28,7 @@ export class ProductsController {
   @UseGuards(SupabaseAuthGuard)
   @ApiBearerAuth()
   @Get(':id')
+  @ApiResponse({ status: 200, type: Product })
   findOne(@Param('id') id: string) {
     return this.service.findOne(Number(id));
   }

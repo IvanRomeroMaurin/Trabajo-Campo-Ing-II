@@ -21,7 +21,14 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -48,7 +55,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -94,7 +108,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -117,7 +141,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -1951,6 +1982,38 @@
       }
     },
     "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cbbc6dcc-79e7-409f-9a66-2ee871e52e3f"
+          },
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "example": "+123456789",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2026-04-10T05:27:56.077Z",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "email"
+        ]
+      },
       "UpdateUserDto": {
         "type": "object",
         "properties": {
@@ -1965,6 +2028,46 @@
       "CreateProductDto": {
         "type": "object",
         "properties": {}
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "Product Name"
+          },
+          "price": {
+            "type": "number",
+            "example": 99.99
+          },
+          "image": {
+            "type": "string",
+            "example": "https://example.com/image.png",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "example": "Product description...",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "example": "2026-04-10T05:27:56.077Z",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "price",
+          "image",
+          "description",
+          "created_at"
+        ]
       },
       "UpdateProductDto": {
         "type": "object",
