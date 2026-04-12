@@ -7,8 +7,8 @@ import './globals.css'
 const geist = Geist({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'MiTienda',
-  description: 'Tu tienda online',
+  title: 'ALEXANDRIA',
+  description: 'Diseño de autor & Perfumería fina',
 }
 
 export default function RootLayout({

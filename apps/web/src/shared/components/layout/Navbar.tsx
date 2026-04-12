@@ -10,12 +10,19 @@ export default async function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border/40">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between gap-8">
-        {/* Logo */}
+        {/* Logo & Brand Name */}
         <Link 
           href="/" 
-          className="text-lg font-light tracking-[0.25em] uppercase text-foreground hover:opacity-70 transition-opacity whitespace-nowrap"
+          className="flex items-center gap-4 hover:opacity-70 transition-opacity"
         >
-          MiTienda
+          <img 
+            src="/logo.png" 
+            alt="ALEXANDRIA" 
+            className="h-8 md:h-10 w-auto invert" 
+          />
+          <span className="hidden sm:block text-xl font-extralight tracking-[0.3em] uppercase text-foreground">
+            ALEXANDRIA
+          </span>
         </Link>
 
         {/* Navigation - Centered */}

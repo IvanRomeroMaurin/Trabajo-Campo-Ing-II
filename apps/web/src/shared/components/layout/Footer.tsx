@@ -13,10 +13,10 @@ export default function Footer() {
             href="/" 
             className="text-lg font-light tracking-[0.25em] uppercase text-foreground"
           >
-            MiTienda
+            ALEXANDRIA
           </Link>
           <p className="text-xs text-muted-foreground leading-relaxed max-w-xs tracking-wide">
-            Diseño minimalista y calidad superior para el día a día. Tu tienda de confianza para lo esencial.
+            Diseño de autor y perfumería fina. Una curaduría de piezas atemporales para el individuo moderno.
           </p>
           <div className="flex gap-4">
             <Link href="#" className="text-muted-foreground hover:text-foreground transition-colors p-1">
@@ -80,7 +80,7 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-6 pt-10 border-t border-border/40 flex flex-col md:flex-row justify-between items-center gap-6">
         <p className="text-[9px] tracking-widest uppercase text-muted-foreground">
-          © {new Date().getFullYear()} MiTienda. Todos los derechos reservados.
+          © {new Date().getFullYear()} ALEXANDRIA. Todos los derechos reservados.
         </p>
         <div className="flex gap-8">
           <Link href="/privacy" className="text-[9px] tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors">Privacidad</Link>

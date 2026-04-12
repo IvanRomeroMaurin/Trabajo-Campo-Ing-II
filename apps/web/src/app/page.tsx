@@ -15,45 +15,39 @@ export default async function HomePage() {
   return (
     <div className="pb-20">
       {/* Hero Section */}
-      <section className="relative h-[calc(100vh-5rem)] w-full flex items-center justify-center overflow-hidden">
+      <section className="relative h-[calc(100vh-5rem)] w-full flex items-center justify-center overflow-hidden bg-black">
         <Image
-          src="/hero.png"
-          alt="Minimalist Fashion Hero"
+          src="/hero_gentleman.png"
+          alt="Alexandria Gentleman Hero"
           fill
-          className="object-cover brightness-[0.5]"
+          sizes="100vw"
+          className="object-cover brightness-[0.6]"
+          style={{ objectPosition: 'center 25%' }}
           priority
         />
         {/* Dark Overlay for Legibility */}
-        <div className="absolute inset-0 bg-black/40 z-[5]" />
+        <div className="absolute inset-0 bg-black/30 z-[5]" />
         
-        <div className="relative z-10 text-center space-y-8 px-6 max-w-5xl">
+        <div className="relative z-10 text-center space-y-10 px-6 max-w-5xl">
           <div className="space-y-4">
-            <p className="text-[10px] md:text-xs tracking-[0.4em] uppercase text-white/90 drop-shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-1000">
-              Nueva Colección 2026
+            <p className="text-[10px] md:text-xs tracking-[0.6em] uppercase text-white/90 drop-shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-1000">
+              Colección Sartorial 2026
             </p>
-            <h1 className="text-5xl md:text-8xl font-extralight tracking-tighter text-white drop-shadow-2xl leading-[0.9] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-              ESENCIA <br /> <span className="italic font-light">MINIMALISTA</span>
+            <h1 className="text-5xl md:text-9xl font-extralight tracking-tighter text-white drop-shadow-2xl leading-[0.85] animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 uppercase">
+              LA ESTÉTICA <br /> <span className="italic font-light">DEL CABALLERO</span>
             </h1>
           </div>
-          <p className="text-sm md:text-base text-white/80 max-w-md mx-auto font-light leading-relaxed drop-shadow-md animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
-            Descubrí piezas diseñadas para perdurar. Calidad impecable, estética atemporal.
+          <p className="text-sm md:text-lg text-white/80 max-w-xl mx-auto font-light leading-relaxed drop-shadow-md animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-300">
+            Piezas de autor diseñadas para el hombre que valora la distinción, la sobriedad y la calidad impecable. Un legado de elegancia atemporal.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-500">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-6 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-500">
             <Link
               href="/products"
-              className="group text-[10px] tracking-[0.3em] uppercase bg-white text-black px-10 py-4 hover:bg-black hover:text-white transition-all duration-300 flex items-center gap-2"
+              className="group text-[10px] tracking-[0.4em] uppercase bg-white text-black px-12 py-5 hover:bg-black hover:text-white transition-all duration-500 flex items-center gap-3"
             >
-              Explorar Catálogo
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+              Explorar Colección
+              <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform duration-500" />
             </Link>
-            {!user && (
-              <Link
-                href="/register"
-                className="text-[10px] tracking-[0.3em] uppercase border border-white/30 text-white px-10 py-4 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
-              >
-                Unirse ahora
-              </Link>
-            )}
           </div>
         </div>
         
@@ -62,54 +56,52 @@ export default async function HomePage() {
       </section>
 
       {/* Brand Values */}
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 border-b border-border/40 pb-20">
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="p-3 rounded-full bg-accent/30">
-              <Truck size={20} strokeWidth={1.5} className="text-foreground" />
-            </div>
-            <h3 className="text-[10px] tracking-[0.2em] font-semibold uppercase">Envío Premium</h3>
-            <p className="text-xs text-muted-foreground font-light px-4">Logística optimizada para entregas rápidas y seguras en todo el país.</p>
+      <section className="max-w-7xl mx-auto px-6 py-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 border-b border-border/40 pb-24">
+          <div className="flex flex-col items-center text-center space-y-6">
+            <h3 className="text-[10px] tracking-[0.4em] font-semibold uppercase text-foreground">Distinción Ética</h3>
+            <p className="text-[11px] text-muted-foreground font-light px-8 leading-relaxed">
+              Materiales nobles seleccionados bajo los más altos estándares de excelencia técnica y responsabilidad.
+            </p>
           </div>
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="p-3 rounded-full bg-accent/30">
-              <ShieldCheck size={20} strokeWidth={1.5} className="text-foreground" />
-            </div>
-            <h3 className="text-[10px] tracking-[0.2em] font-semibold uppercase">Calidad Garantizada</h3>
-            <p className="text-xs text-muted-foreground font-light px-4">Cada pieza es inspeccionada manualmente para asegurar perfección.</p>
+          <div className="flex flex-col items-center text-center space-y-6">
+            <h3 className="text-[10px] tracking-[0.4em] font-semibold uppercase text-foreground">Artesanía de Autor</h3>
+            <p className="text-[11px] text-muted-foreground font-light px-8 leading-relaxed">
+              Cada pieza es un manifiesto de sobriedad, confeccionada con el rigor que exige el guardarropa masculino.
+            </p>
           </div>
-          <div className="flex flex-col items-center text-center space-y-4">
-            <div className="p-3 rounded-full bg-accent/30">
-              <Box size={20} strokeWidth={1.5} className="text-foreground" />
-            </div>
-            <h3 className="text-[10px] tracking-[0.2em] font-semibold uppercase">Packaging Eco</h3>
-            <p className="text-xs text-muted-foreground font-light px-4">Comprometidos con el minimalismo también en nuestro impacto ambiental.</p>
+          <div className="flex flex-col items-center text-center space-y-6">
+            <h3 className="text-[10px] tracking-[0.4em] font-semibold uppercase text-foreground">Legado Atemporal</h3>
+            <p className="text-[11px] text-muted-foreground font-light px-8 leading-relaxed">
+              No diseñamos para una temporada, sino para una vida. Elegancia que trasciende lo efímero.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Category Grid */}
-      <section className="max-w-7xl mx-auto px-6 space-y-12">
-        <div className="space-y-2">
-          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Colecciones</p>
-          <h2 className="text-3xl font-extralight tracking-tight">Explorar por línea</h2>
+      <section className="max-w-7xl mx-auto px-6 space-y-16">
+        <div className="space-y-3">
+          <p className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-light">Líneas Maestras</p>
+          <h2 className="text-4xl font-extralight tracking-tight uppercase">Curaduría Selecta</h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[600px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 h-[700px]">
           <Link href="/products?category=remeras" className="relative group overflow-hidden">
             <Image
-              src="/cat_remeras.png"
-              alt="Remeras Collection"
+              src="/cat_sartorial.png"
+              alt="Sartorial Collection"
               fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105 brightness-90"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover transition-transform duration-1000 group-hover:scale-110 brightness-75"
             />
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-            <div className="absolute bottom-10 left-10 space-y-2">
-              <h3 className="text-white text-2xl font-light tracking-wide">Essentials: Remeras</h3>
-              <p className="text-white/70 text-[10px] tracking-[0.2em] uppercase">Materiales de primera calidad</p>
-              <div className="pt-4 overflow-hidden">
-                <span className="text-white text-[10px] tracking-[0.3em] uppercase border-b border-white/50 pb-1 translate-y-10 group-hover:translate-y-0 transition-transform duration-500 inline-block">
-                  Ver colección
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500" />
+            <div className="absolute bottom-12 left-12 space-y-3">
+              <h3 className="text-white text-3xl font-light tracking-wide uppercase">SARTORIAL</h3>
+              <p className="text-white/60 text-[10px] tracking-[0.3em] uppercase font-light">Diseño de Autor & Estructura</p>
+              <div className="pt-6 overflow-hidden">
+                <span className="text-white text-[10px] tracking-[0.4em] uppercase border-b border-white/40 pb-2 translate-y-12 group-hover:translate-y-0 transition-transform duration-700 inline-block">
+                  Ver Colección
                 </span>
               </div>
             </div>
@@ -117,18 +109,19 @@ export default async function HomePage() {
 
           <Link href="/products?category=calzado" className="relative group overflow-hidden">
             <Image
-              src="/cat_calzado.png"
-              alt="Calzado Collection"
+              src="/cat_perfumery.png"
+              alt="Perfumería Fina"
               fill
-              className="object-cover transition-transform duration-700 group-hover:scale-105 brightness-90"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover transition-transform duration-1000 group-hover:scale-110 brightness-75"
             />
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-            <div className="absolute bottom-10 left-10 space-y-2">
-              <h3 className="text-white text-2xl font-light tracking-wide">Studio: Calzado</h3>
-              <p className="text-white/70 text-[10px] tracking-[0.2em] uppercase">Estructura y confort</p>
-              <div className="pt-4 overflow-hidden">
-                <span className="text-white text-[10px] tracking-[0.3em] uppercase border-b border-white/50 pb-1 translate-y-10 group-hover:translate-y-0 transition-transform duration-500 inline-block">
-                  Ver colección
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-500" />
+            <div className="absolute bottom-12 left-12 space-y-3">
+              <h3 className="text-white text-3xl font-light tracking-wide uppercase">ESENCIA</h3>
+              <p className="text-white/60 text-[10px] tracking-[0.3em] uppercase font-light">Alta Perfumería Masculina</p>
+              <div className="pt-6 overflow-hidden">
+                <span className="text-white text-[10px] tracking-[0.4em] uppercase border-b border-white/40 pb-2 translate-y-12 group-hover:translate-y-0 transition-transform duration-700 inline-block">
+                  Descubrir Fragancias
                 </span>
               </div>
             </div>
