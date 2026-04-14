@@ -493,7 +493,7 @@ export interface paths {
         };
         get: operations["CategoriesController_findAll"];
         put?: never;
-        post?: never;
+        post: operations["CategoriesController_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -516,6 +516,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/categories/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["CategoriesController_remove"];
+        options?: never;
+        head?: never;
+        patch: operations["CategoriesController_update"];
+        trace?: never;
+    };
     "/api/product-variants": {
         parameters: {
             query?: never;
@@ -525,7 +541,7 @@ export interface paths {
         };
         get: operations["ProductVariantsController_findAll"];
         put?: never;
-        post?: never;
+        post: operations["ProductVariantsController_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -542,10 +558,10 @@ export interface paths {
         get: operations["ProductVariantsController_findOne"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["ProductVariantsController_remove"];
         options?: never;
         head?: never;
-        patch?: never;
+        patch: operations["ProductVariantsController_update"];
         trace?: never;
     };
     "/api/attribute-types": {
@@ -557,7 +573,7 @@ export interface paths {
         };
         get: operations["AttributeTypesController_findAll"];
         put?: never;
-        post?: never;
+        post: operations["AttributeTypesController_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -574,16 +590,25 @@ export interface paths {
         get: operations["AttributeTypesController_findOne"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["AttributeTypesController_remove"];
         options?: never;
         head?: never;
-        patch?: never;
+        patch: operations["AttributeTypesController_update"];
         trace?: never;
     };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        RoleEntity: {
+            /** @example 1 */
+            id: number;
+            /** @example admin */
+            name: string;
+        };
+        UserRoleEntity: {
+            roles: components["schemas"]["RoleEntity"];
+        };
         User: {
             /** @example cbbc6dcc-79e7-409f-9a66-2ee871e52e3f */
             id: string;
@@ -595,6 +620,7 @@ export interface components {
             phone?: string | null;
             /** @example 2026-04-10T05:27:56.077Z */
             createdAt?: string | null;
+            user_roles?: components["schemas"]["UserRoleEntity"][];
         };
         UpdateUserDto: {
             name?: string;
@@ -719,6 +745,62 @@ export interface components {
             description: string | null;
             /** @example 2026-04-10T00:00:00.000Z */
             created_at: string | null;
+        };
+        CreateCategoryDto: {
+            /** @example Electronics */
+            name: string;
+            /** @example electronics */
+            slug: string;
+            /** @example Electronic gadgets and devices */
+            description?: string;
+        };
+        UpdateCategoryDto: {
+            /** @example Electronics */
+            name?: string;
+            /** @example electronics */
+            slug?: string;
+            /** @example Electronic gadgets and devices */
+            description?: string;
+        };
+        CreateProductVariantDto: {
+            /** @example 1 */
+            product_id: number;
+            /** @example SKU-001 */
+            sku?: string;
+            /** @example 0 */
+            price_modifier?: number;
+            /** @example 10 */
+            stock: number;
+            /** @example true */
+            is_active?: boolean;
+        };
+        UpdateProductVariantDto: {
+            /** @example 1 */
+            product_id?: number;
+            /** @example SKU-001 */
+            sku?: string;
+            /** @example 0 */
+            price_modifier?: number;
+            /** @example 10 */
+            stock?: number;
+            /** @example true */
+            is_active?: boolean;
+        };
+        CreateAttributeTypeDto: {
+            /** @example Color */
+            name: string;
+            /** @example color */
+            slug: string;
+            /** @example products */
+            applies_to?: string;
+        };
+        UpdateAttributeTypeDto: {
+            /** @example Color */
+            name?: string;
+            /** @example color */
+            slug?: string;
+            /** @example products */
+            applies_to?: string;
         };
     };
     responses: never;
@@ -2100,6 +2182,29 @@ export interface operations {
             };
         };
     };
+    CategoriesController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCategoryDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Category"];
+                };
+            };
+        };
+    };
     CategoriesController_findOne: {
         parameters: {
             query?: never;
@@ -2110,6 +2215,50 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Category"];
+                };
+            };
+        };
+    };
+    CategoriesController_remove: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    CategoriesController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateCategoryDto"];
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -2138,6 +2287,27 @@ export interface operations {
             };
         };
     };
+    ProductVariantsController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateProductVariantDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     ProductVariantsController_findOne: {
         parameters: {
             query?: never;
@@ -2148,6 +2318,48 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProductVariantsController_remove: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProductVariantsController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateProductVariantDto"];
+            };
+        };
         responses: {
             200: {
                 headers: {
@@ -2174,6 +2386,27 @@ export interface operations {
             };
         };
     };
+    AttributeTypesController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateAttributeTypeDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     AttributeTypesController_findOne: {
         parameters: {
             query?: never;
@@ -2184,6 +2417,48 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AttributeTypesController_remove: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AttributeTypesController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAttributeTypeDto"];
+            };
+        };
         responses: {
             200: {
                 headers: {

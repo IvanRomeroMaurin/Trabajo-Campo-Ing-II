@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateProductVariantDto } from './dto/create-product-variant.dto';
 import { UpdateProductVariantDto } from './dto/update-product-variant.dto';
@@ -7,8 +7,39 @@ import { UpdateProductVariantDto } from './dto/update-product-variant.dto';
 export class ProductVariantsService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // Público: solo variantes activas
+  findByProduct(productId: number) {
+    return this.prisma.product_variants.findMany({
+      where: { product_id: productId, is_active: true },
+      include: {
+        variant_attributes: {
+          include: {
+            attribute_values: { include: { attribute_types: true } }
+          }
+        }
+      },
+      orderBy: { id: 'asc' }
+    })
+  }
+
+  // Admin: todas las variantes del producto
+  findByProductAdmin(productId: number) {
+    return this.prisma.product_variants.findMany({
+      where: { product_id: productId },
+      include: {
+        variant_attributes: {
+          include: {
+            attribute_values: { include: { attribute_types: true } }
+          }
+        }
+      },
+      orderBy: { id: 'asc' }
+    })
+  }
+
   findAll() {
     return this.prisma.product_variants.findMany({
+      where: { is_active: true },
       include: {
         variant_attributes: {
           include: {
@@ -38,7 +69,28 @@ export class ProductVariantsService {
         },
       },
     });
-    if (!record) throw new NotFoundException(`ProductVariant #${id} not found`);
+    if (!record || !record.is_active) {
+      throw new NotFoundException(`ProductVariant #${id} not found`);
+    }
+    return record;
+  }
+
+  async findOneAdmin(id: number) {
+    const record = await this.prisma.product_variants.findUnique({
+      where: { id },
+      include: {
+        variant_attributes: {
+          include: {
+            attribute_values: {
+              include: {
+                attribute_types: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!record) throw new NotFoundException(`Variant #${id} not found`);
     return record;
   }
 
@@ -49,7 +101,7 @@ export class ProductVariantsService {
   }
 
   async update(id: number, dto: UpdateProductVariantDto) {
-    await this.findOne(id);
+    await this.findOneAdmin(id);
     return this.prisma.product_variants.update({
       where: { id },
       data: dto as any,
@@ -57,9 +109,20 @@ export class ProductVariantsService {
   }
 
   async remove(id: number) {
-    await this.findOne(id);
-    return this.prisma.product_variants.delete({
+    const variant = await this.findOneAdmin(id)
+    return this.prisma.product_variants.update({
       where: { id },
-    });
+      data: { is_active: false }
+    })
+  }
+
+  async restore(id: number) {
+    const variant = await this.prisma.product_variants.findUnique({ where: { id } })
+    if (!variant) throw new NotFoundException(`Variant #${id} not found`)
+    if (variant.is_active) throw new BadRequestException(`Variant #${id} is already active`)
+    return this.prisma.product_variants.update({
+      where: { id },
+      data: { is_active: true }
+    })
   }
 }

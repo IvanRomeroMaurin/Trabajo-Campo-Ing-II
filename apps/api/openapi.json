@@ -75,6 +75,90 @@
         ]
       }
     },
+    "/api/users/admin/all": {
+      "get": {
+        "operationId": "UsersController_findAllAdmin",
+        "parameters": [
+          {
+            "name": "includeInactive",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "delete": {
+        "operationId": "UsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/users/{id}/restore": {
+      "patch": {
+        "operationId": "UsersController_restore",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "users"
+        ]
+      }
+    },
     "/api/products": {
       "get": {
         "operationId": "ProductsController_findAll",
@@ -145,7 +229,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -173,7 +257,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -209,7 +293,91 @@
             "required": true,
             "in": "path",
             "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/api/products/admin/all": {
+      "get": {
+        "operationId": "ProductsController_findAllAdmin",
+        "parameters": [
+          {
+            "name": "includeInactive",
+            "required": true,
+            "in": "query",
+            "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/api/products/admin/{id}": {
+      "get": {
+        "operationId": "ProductsController_findOneAdmin",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/api/products/{id}/restore": {
+      "patch": {
+        "operationId": "ProductsController_restore",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
             }
           }
         ],
@@ -490,25 +658,6 @@
         ]
       }
     },
-    "/api/orders/me": {
-      "get": {
-        "operationId": "OrdersController_findMe",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "tags": [
-          "orders"
-        ]
-      }
-    },
     "/api/orders": {
       "post": {
         "operationId": "OrdersController_create",
@@ -620,6 +769,62 @@
       },
       "delete": {
         "operationId": "OrdersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/admin/all": {
+      "get": {
+        "operationId": "OrdersController_findAllAdmin",
+        "parameters": [
+          {
+            "name": "includeInactive",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/{id}/restore": {
+      "patch": {
+        "operationId": "OrdersController_restore",
         "parameters": [
           {
             "name": "id",
@@ -1053,7 +1258,7 @@
         ]
       }
     },
-    "/api/reviews": {
+    "/api/reviews/product/{productId}": {
       "get": {
         "operationId": "ReviewsController_findByProduct",
         "parameters": [
@@ -1063,7 +1268,7 @@
             "in": "query",
             "description": "ID del producto",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -1085,7 +1290,9 @@
         "tags": [
           "reviews"
         ]
-      },
+      }
+    },
+    "/api/reviews": {
       "post": {
         "operationId": "ReviewsController_create",
         "parameters": [],
@@ -1130,7 +1337,63 @@
             "required": true,
             "in": "path",
             "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "reviews"
+        ]
+      }
+    },
+    "/api/reviews/admin/all": {
+      "get": {
+        "operationId": "ReviewsController_findAllAdmin",
+        "parameters": [
+          {
+            "name": "includeInactive",
+            "required": true,
+            "in": "query",
+            "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "reviews"
+        ]
+      }
+    },
+    "/api/reviews/{id}/restore": {
+      "patch": {
+        "operationId": "ReviewsController_restore",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
             }
           }
         ],
@@ -1863,7 +2126,7 @@
     },
     "/api/categories/{slug}": {
       "get": {
-        "operationId": "CategoriesController_findOne",
+        "operationId": "CategoriesController_findBySlug",
         "parameters": [
           {
             "name": "slug",
@@ -1900,7 +2163,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -1943,7 +2206,63 @@
             "required": true,
             "in": "path",
             "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "categories"
+        ]
+      }
+    },
+    "/api/categories/admin/all": {
+      "get": {
+        "operationId": "CategoriesController_findAllAdmin",
+        "parameters": [
+          {
+            "name": "includeInactive",
+            "required": true,
+            "in": "query",
+            "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "categories"
+        ]
+      }
+    },
+    "/api/categories/{id}/restore": {
+      "patch": {
+        "operationId": "CategoriesController_restore",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
             }
           }
         ],
@@ -2012,7 +2331,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -2033,7 +2352,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -2069,7 +2388,35 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "product-variants"
+        ]
+      }
+    },
+    "/api/product-variants/{id}/restore": {
+      "patch": {
+        "operationId": "ProductVariantsController_restore",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
             }
           }
         ],
@@ -2138,7 +2485,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -2159,7 +2506,7 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
             }
           }
         ],
@@ -2195,7 +2542,35 @@
             "required": true,
             "in": "path",
             "schema": {
-              "type": "string"
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "attribute-types"
+        ]
+      }
+    },
+    "/api/attribute-types/{id}/restore": {
+      "patch": {
+        "operationId": "AttributeTypesController_restore",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
             }
           }
         ],
@@ -2286,6 +2661,10 @@
             "example": "2026-04-10T05:27:56.077Z",
             "nullable": true
           },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          },
           "user_roles": {
             "type": "array",
             "items": {
@@ -2295,7 +2674,8 @@
         },
         "required": [
           "id",
-          "email"
+          "email",
+          "is_active"
         ]
       },
       "UpdateUserDto": {
@@ -2404,6 +2784,10 @@
             "type": "number",
             "example": 10
           },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          },
           "variant_attributes": {
             "type": "array",
             "items": {
@@ -2416,6 +2800,7 @@
           "sku",
           "price_modifier",
           "stock",
+          "is_active",
           "variant_attributes"
         ]
       },
@@ -2453,6 +2838,10 @@
             "example": "2026-04-10T00:00:00.000Z",
             "nullable": true
           },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          },
           "categories": {
             "nullable": true,
             "allOf": [
@@ -2476,6 +2865,7 @@
           "description",
           "category_id",
           "created_at",
+          "is_active",
           "categories",
           "product_variants"
         ]
@@ -2585,6 +2975,10 @@
             "example": "2026-04-10T00:00:00.000Z",
             "nullable": true
           },
+          "is_active": {
+            "type": "boolean",
+            "example": true
+          },
           "users": {
             "nullable": true,
             "allOf": [
@@ -2601,6 +2995,7 @@
           "rating",
           "comment",
           "created_at",
+          "is_active",
           "users"
         ]
       },
@@ -2691,6 +3086,10 @@
             "type": "string",
             "example": "2026-04-10T00:00:00.000Z",
             "nullable": true
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
           }
         },
         "required": [
@@ -2698,7 +3097,8 @@
           "name",
           "slug",
           "description",
-          "created_at"
+          "created_at",
+          "is_active"
         ]
       },
       "CreateCategoryDto": {
@@ -2715,6 +3115,10 @@
           "description": {
             "type": "string",
             "example": "Electronic gadgets and devices"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
           }
         },
         "required": [
@@ -2736,6 +3140,10 @@
           "description": {
             "type": "string",
             "example": "Electronic gadgets and devices"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
           }
         }
       },
@@ -2807,6 +3215,10 @@
           "applies_to": {
             "type": "string",
             "example": "products"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
           }
         },
         "required": [
@@ -2828,6 +3240,10 @@
           "applies_to": {
             "type": "string",
             "example": "products"
+          },
+          "is_active": {
+            "type": "boolean",
+            "example": true
           }
         }
       }

@@ -6,4 +6,5 @@ export interface Product {
   description?: string | null
   category_id: number
   created_at?: string | Date | null
+  is_active: boolean
 }

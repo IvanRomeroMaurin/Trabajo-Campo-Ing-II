@@ -4,4 +4,5 @@ export interface Order {
   total: number; // Decimal mapped to number
   created_at: Date | null;
   status_id: number;
+  is_active: boolean;
 }

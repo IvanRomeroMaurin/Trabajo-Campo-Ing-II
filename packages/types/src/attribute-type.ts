@@ -4,4 +4,5 @@ export interface AttributeType {
   slug: string;
   applies_to: string;
   created_at?: Date | string | null;
+  is_active: boolean
 }

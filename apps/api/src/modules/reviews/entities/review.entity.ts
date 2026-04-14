@@ -27,6 +27,9 @@ export class Review {
   @ApiProperty({ example: '2026-04-10T00:00:00.000Z', nullable: true, type: () => String })
   created_at: Date | null
 
+  @ApiProperty({ example: true })
+  is_active: boolean
+
   @ApiProperty({ type: () => ReviewUser, nullable: true })
   users?: ReviewUser | null
 }

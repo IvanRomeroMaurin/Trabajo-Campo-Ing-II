@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Query, ParseIntPipe } from '@nestjs/common'
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { ApiResponse } from '@nestjs/swagger'
 import { CategoriesService } from './categories.service'
@@ -22,7 +22,7 @@ export class CategoriesController {
 
   @Get(':slug')
   @ApiResponse({ status: 200, type: Category })
-  findOne(@Param('slug') slug: string) {
+  findBySlug(@Param('slug') slug: string) {
     return this.service.findBySlug(slug)
   }
 
@@ -40,8 +40,8 @@ export class CategoriesController {
   @Roles('admin')
   @ApiBearerAuth()
   @ApiResponse({ status: 200, type: Category })
-  update(@Param('id') id: string, @Body() dto: UpdateCategoryDto) {
-    return this.service.update(Number(id), dto)
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateCategoryDto) {
+    return this.service.update(id, dto)
   }
 
   @Delete(':id')
@@ -49,7 +49,23 @@ export class CategoriesController {
   @Roles('admin')
   @ApiBearerAuth()
   @ApiResponse({ status: 200 })
-  remove(@Param('id') id: string) {
-    return this.service.remove(Number(id))
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.service.remove(id)
+  }
+
+  @Get('admin/all')
+  @UseGuards(SupabaseAuthGuard, RolesGuard)
+  @Roles('admin')
+  @ApiBearerAuth()
+  findAllAdmin(@Query('includeInactive') includeInactive?: string) {
+    return this.service.findAllAdmin(includeInactive === 'true')
+  }
+
+  @Patch(':id/restore')
+  @UseGuards(SupabaseAuthGuard, RolesGuard)
+  @Roles('admin')
+  @ApiBearerAuth()
+  restore(@Param('id', ParseIntPipe) id: number) {
+    return this.service.restore(id)
   }
 }

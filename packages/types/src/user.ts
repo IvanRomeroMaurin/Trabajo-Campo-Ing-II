@@ -4,4 +4,5 @@ export interface User {
   name?: string | null;
   phone?: string | null;
   createdAt?: string | Date | null;
+  is_active: boolean;
 }

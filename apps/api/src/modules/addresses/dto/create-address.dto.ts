@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsBoolean } from 'class-validator';
 import { Address } from '@repo/types';
 
-export class CreateAddressDto implements Omit<Address, 'id'> {
+export class CreateAddressDto implements Omit<Address, 'id' | 'is_active'> {
   @IsNotEmpty()
   @IsString()
   user_id: string;

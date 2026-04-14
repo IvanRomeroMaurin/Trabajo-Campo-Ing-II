@@ -41,6 +41,9 @@ export class ProductVariant {
   @ApiProperty({ example: 10 })
   stock: number
 
+  @ApiProperty({ example: true })
+  is_active: boolean
+
   @ApiProperty({ type: () => [VariantAttribute] })
   variant_attributes: VariantAttribute[]
 }
@@ -77,6 +80,9 @@ export class Product implements ProductInterface {
 
   @ApiProperty({ example: '2026-04-10T00:00:00.000Z', nullable: true, type: () => String })
   created_at: Date | null
+
+  @ApiProperty({ example: true })
+  is_active: boolean
 
   @ApiProperty({ type: () => ProductCategory, nullable: true })
   categories?: ProductCategory | null

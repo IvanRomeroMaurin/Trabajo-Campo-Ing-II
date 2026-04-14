@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,8 +7,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-    return this.prisma.users.findMany();
+  findAll(includeInactive = false) {
+    return this.prisma.users.findMany({
+      where: includeInactive ? {} : { is_active: true }
+    });
   }
 
   async findById(id: string) {
@@ -20,11 +22,18 @@ export class UsersService {
         }
       } as any
     });
-    if (!record) throw new NotFoundException(`User #${id} not found`);
+    if (!record || !record.is_active) throw new NotFoundException(`User #${id} not found`);
     return record;
   }
 
   async findOne(id: string) {
+    const user = await this.prisma.users.findUnique({ where: { id } });
+    if (!user || !user.is_active) throw new NotFoundException(`User #${id} not found`);
+    return user;
+  }
+
+  // Find including inactive (for admin/auth)
+  async findOneAdmin(id: string) {
     const user = await this.prisma.users.findUnique({ where: { id } });
     if (!user) throw new NotFoundException(`User #${id} not found`);
     return user;
@@ -35,7 +44,7 @@ export class UsersService {
   }
 
   async update(id: string, dto: UpdateUserDto) {
-    await this.findById(id);
+    await this.findOneAdmin(id);
     return this.prisma.users.update({
       where: { id } as any,
       data: dto as any,
@@ -47,9 +56,24 @@ export class UsersService {
     });
   }
 
+  // Soft delete
   async remove(id: string) {
-    await this.findOne(id);
-    return this.prisma.users.delete({ where: { id } });
+    await this.findOneAdmin(id);
+    return this.prisma.users.update({
+      where: { id },
+      data: { is_active: false }
+    });
+  }
+
+  // Reactivar
+  async restore(id: string) {
+    const record = await this.prisma.users.findUnique({ where: { id } });
+    if (!record) throw new NotFoundException(`User #${id} not found`);
+    if (record.is_active) throw new BadRequestException(`User #${id} is already active`);
+    return this.prisma.users.update({
+      where: { id },
+      data: { is_active: true }
+    })
   }
 
   // Verificar si un usuario tiene un rol específico

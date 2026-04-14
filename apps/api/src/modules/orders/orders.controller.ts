@@ -1,7 +1,9 @@
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { SupabaseAuthGuard } from '../auth/supabase-auth.guard';
-import { Controller, UseGuards, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Controller, UseGuards, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -9,13 +11,6 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 @ApiTags('orders')
 @Controller('orders')
 export class OrdersController {
-
-  @UseGuards(SupabaseAuthGuard)
-  @ApiBearerAuth()
-  @Get('me')
-  findMe(@CurrentUser() user: { id: string }) {
-    return (this.service as any).findMe ? (this.service as any).findMe(user.id) : [];
-  }
   constructor(private readonly service: OrdersService) {}
 
   @UseGuards(SupabaseAuthGuard)
@@ -35,21 +30,42 @@ export class OrdersController {
   @UseGuards(SupabaseAuthGuard)
   @ApiBearerAuth()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(BigInt(id));
+  findOne(@Param('id') id: string, @CurrentUser() user: any) {
+    // Si no es admin, filtramos por user_id
+    const userId = user.roles?.includes('admin') ? undefined : user.sub;
+    return this.service.findOne(BigInt(id), userId);
   }
 
-  @UseGuards(SupabaseAuthGuard)
+  @UseGuards(SupabaseAuthGuard, RolesGuard)
+  @Roles('admin')
   @ApiBearerAuth()
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateOrderDto) {
     return this.service.update(BigInt(id), dto);
   }
 
-  @UseGuards(SupabaseAuthGuard)
+  @UseGuards(SupabaseAuthGuard, RolesGuard)
+  @Roles('admin')
   @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(BigInt(id));
+  }
+
+  @Get('admin/all')
+  @UseGuards(SupabaseAuthGuard, RolesGuard)
+  @Roles('admin')
+  @ApiBearerAuth()
+  @ApiQuery({ name: 'includeInactive', required: false, type: Boolean })
+  findAllAdmin(@Query('includeInactive') includeInactive?: string) {
+    return this.service.findAllAdmin(includeInactive === 'true');
+  }
+
+  @Patch(':id/restore')
+  @UseGuards(SupabaseAuthGuard, RolesGuard)
+  @Roles('admin')
+  @ApiBearerAuth()
+  restore(@Param('id') id: string) {
+    return this.service.restore(BigInt(id));
   }
 }

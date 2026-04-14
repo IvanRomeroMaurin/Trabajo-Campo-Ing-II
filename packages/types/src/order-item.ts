@@ -5,4 +5,5 @@ export interface OrderItem {
   quantity: number;
   price: number; // Decimal mapped to number
   product_variant_id: number | null;
+  is_active: boolean;
 }

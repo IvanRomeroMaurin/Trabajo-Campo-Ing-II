@@ -6,4 +6,5 @@ export interface Payment {
   external_id: string | null;
   amount: number; // Decimal mapped to number
   created_at: Date | null;
+  is_active: boolean;
 }

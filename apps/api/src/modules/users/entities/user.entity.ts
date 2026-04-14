@@ -30,6 +30,9 @@ export class User implements UserInterface {
   @ApiProperty({ example: '2026-04-10T05:27:56.077Z', required: false, nullable: true, type: () => String })
   createdAt: Date | null;
 
+  @ApiProperty({ example: true })
+  is_active: boolean;
+
   @ApiProperty({ type: () => [UserRoleEntity], required: false })
   user_roles?: UserRoleEntity[];
 }

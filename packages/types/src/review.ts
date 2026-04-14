@@ -5,4 +5,5 @@ export interface Review {
   rating: number;
   comment: string | null;
   created_at: Date | null;
+  is_active: boolean;
 }

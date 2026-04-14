@@ -3,4 +3,5 @@ export interface AttributeValue {
   attribute_type_id: number;
   value: string;
   display_order: number | null;
+  is_active: boolean
 }

@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { OrderItem } from '@repo/types';
 
-export class CreateOrderItemDto implements Omit<OrderItem, 'id'> {
+export class CreateOrderItemDto implements Omit<OrderItem, 'id' | 'is_active'> {
   @IsNotEmpty()
   order_id: bigint;
 

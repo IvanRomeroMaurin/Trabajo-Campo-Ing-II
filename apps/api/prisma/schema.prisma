@@ -501,6 +501,7 @@ model addresses {
   city_id         Int
   postal_code_id  Int
   is_default      Boolean?          @default(false)
+  is_active       Boolean           @default(true)
   cities          cities            @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   postal_codes    postal_codes      @relation(fields: [postal_code_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users           users             @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -513,6 +514,7 @@ model cities {
   id          Int         @id @default(autoincrement())
   province_id Int
   name        String
+  is_active   Boolean     @default(true)
   addresses   addresses[]
   provinces   provinces   @relation(fields: [province_id], references: [id])
 
@@ -526,6 +528,7 @@ model order_items {
   quantity           Int               @default(1)
   price              Decimal           @db.Decimal(10, 2)
   product_variant_id Int?
+  is_active          Boolean           @default(true)
   orders             orders            @relation(fields: [order_id], references: [id], onDelete: Cascade)
   products           products?         @relation(fields: [product_id], references: [id])
   product_variants   product_variants? @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction, map: "order_items_variant_fkey")
@@ -539,6 +542,7 @@ model order_shippings {
   recipient_name String
   notes          String?
   address_id     Int
+  is_active      Boolean   @default(true)
   addresses      addresses @relation(fields: [address_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   orders         orders    @relation(fields: [order_id], references: [id], onDelete: Cascade)
 
@@ -546,9 +550,10 @@ model order_shippings {
 }
 
 model order_statuses {
-  id     Int      @id @default(autoincrement())
-  name   String   @unique
-  orders orders[]
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  is_active Boolean  @default(true)
+  orders    orders[]
 
   @@schema("public")
 }
@@ -559,6 +564,7 @@ model orders {
   total           Decimal          @db.Decimal(10, 2)
   created_at      DateTime?        @default(now()) @db.Timestamptz(6)
   status_id       Int              @default(1)
+  is_active       Boolean          @default(true)
   order_items     order_items[]
   order_shippings order_shippings?
   order_statuses  order_statuses   @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -569,17 +575,19 @@ model orders {
 }
 
 model payment_methods {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique
-  payments payments[]
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  is_active Boolean    @default(true)
+  payments  payments[]
 
   @@schema("public")
 }
 
 model payment_statuses {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique
-  payments payments[]
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  is_active Boolean    @default(true)
+  payments  payments[]
 
   @@schema("public")
 }
@@ -592,6 +600,7 @@ model payments {
   created_at       DateTime?        @default(now()) @db.Timestamptz(6)
   method_id        Int
   status_id        Int
+  is_active        Boolean          @default(true)
   payment_methods  payment_methods  @relation(fields: [method_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   orders           orders           @relation(fields: [order_id], references: [id], onDelete: Cascade)
   payment_statuses payment_statuses @relation(fields: [status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -602,6 +611,7 @@ model payments {
 model postal_codes {
   id        Int         @id @default(autoincrement())
   code      String      @unique
+  is_active Boolean     @default(true)
   addresses addresses[]
 
   @@schema("public")
@@ -615,6 +625,7 @@ model products {
   description      String?
   created_at       DateTime?          @default(now()) @db.Timestamptz(6)
   category_id      Int                @default(1)
+  is_active        Boolean            @default(true)
   order_items      order_items[]
   product_variants product_variants[]
   categories       categories         @relation(fields: [category_id], references: [id], onUpdate: NoAction)
@@ -624,9 +635,10 @@ model products {
 }
 
 model provinces {
-  id     Int      @id @default(autoincrement())
-  name   String
-  cities cities[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  is_active Boolean  @default(true)
+  cities    cities[]
 
   @@schema("public")
 }
@@ -639,6 +651,7 @@ model reviews {
   rating     Int       @default(5)
   comment    String?
   created_at DateTime? @default(now()) @db.Timestamptz(6)
+  is_active  Boolean   @default(true)
   products   products  @relation(fields: [product_id], references: [id], onDelete: Cascade)
   users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -652,6 +665,7 @@ model users {
   phone      String?
   created_at DateTime?    @default(now()) @db.Timestamptz(6)
   id         String       @id @db.Uuid
+  is_active  Boolean      @default(true)
   addresses  addresses[]
   orders     orders[]
   reviews    reviews[]
@@ -668,6 +682,7 @@ model categories {
   slug        String     @unique
   description String?
   created_at  DateTime?  @default(now()) @db.Timestamptz(6)
+  is_active   Boolean    @default(true)
   products    products[]
 
   @@schema("public")
@@ -679,6 +694,7 @@ model attribute_types {
   slug             String             @unique
   applies_to       String             @default("all")
   created_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  is_active        Boolean            @default(true)
   attribute_values attribute_values[]
 
   @@schema("public")
@@ -689,6 +705,7 @@ model attribute_values {
   attribute_type_id  Int
   value              String
   display_order      Int?                 @default(0)
+  is_active          Boolean              @default(true)
   attribute_types    attribute_types      @relation(fields: [attribute_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "attribute_values_type_fkey")
   variant_attributes variant_attributes[]
 

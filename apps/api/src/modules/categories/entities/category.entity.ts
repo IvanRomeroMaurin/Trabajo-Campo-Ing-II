@@ -16,4 +16,7 @@ export class Category implements CategoryInterface {
 
   @ApiProperty({ example: '2026-04-10T00:00:00.000Z', nullable: true, type: () => String })
   created_at: Date | null
+
+  @ApiProperty({ example: true })
+  is_active: boolean
 }

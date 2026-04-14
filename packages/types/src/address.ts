@@ -5,4 +5,5 @@ export interface Address {
   city_id: number;
   postal_code_id: number;
   is_default: boolean | null;
+  is_active: boolean;
 }
