@@ -520,14 +520,15 @@ model cities {
 }
 
 model order_items {
-  id         Int       @id @default(autoincrement())
-  order_id   BigInt
-  product_id Int?
-  quantity   Int       @default(1)
-  price      Decimal   @db.Decimal(10, 2)
-  size       String?
-  orders     orders    @relation(fields: [order_id], references: [id], onDelete: Cascade)
-  products   products? @relation(fields: [product_id], references: [id])
+  id                 Int               @id @default(autoincrement())
+  order_id           BigInt
+  product_id         Int?
+  quantity           Int               @default(1)
+  price              Decimal           @db.Decimal(10, 2)
+  product_variant_id Int?
+  orders             orders            @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  products           products?         @relation(fields: [product_id], references: [id])
+  product_variants   product_variants? @relation(fields: [product_variant_id], references: [id], onUpdate: NoAction, map: "order_items_variant_fkey")
 
   @@schema("public")
 }
@@ -606,29 +607,18 @@ model postal_codes {
   @@schema("public")
 }
 
-model product_stocks {
-  id         Int      @id @default(autoincrement())
-  product_id Int
-  size       String
-  quantity   Int      @default(0)
-  products   products @relation(fields: [product_id], references: [id], onDelete: Cascade)
-
-  @@unique([product_id, size])
-  @@schema("public")
-}
-
 model products {
-  id             Int              @id @default(autoincrement())
-  name           String
-  price          Decimal          @db.Decimal(10, 2)
-  image          String?
-  description    String?
-  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
-  category_id    Int              @default(1)
-  order_items    order_items[]
-  product_stocks product_stocks[]
-  categories     categories       @relation(fields: [category_id], references: [id], onUpdate: NoAction)
-  reviews        reviews[]
+  id               Int                @id @default(autoincrement())
+  name             String
+  price            Decimal            @db.Decimal(10, 2)
+  image            String?
+  description      String?
+  created_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  category_id      Int                @default(1)
+  order_items      order_items[]
+  product_variants product_variants[]
+  categories       categories         @relation(fields: [category_id], references: [id], onUpdate: NoAction)
+  reviews          reviews[]
 
   @@schema("public")
 }
@@ -679,6 +669,54 @@ model categories {
   created_at  DateTime?  @default(now()) @db.Timestamptz(6)
   products    products[]
 
+  @@schema("public")
+}
+
+model attribute_types {
+  id               Int                @id @default(autoincrement())
+  name             String             @unique
+  slug             String             @unique
+  applies_to       String             @default("all")
+  created_at       DateTime?          @default(now()) @db.Timestamptz(6)
+  attribute_values attribute_values[]
+
+  @@schema("public")
+}
+
+model attribute_values {
+  id                 Int                  @id @default(autoincrement())
+  attribute_type_id  Int
+  value              String
+  display_order      Int?                 @default(0)
+  attribute_types    attribute_types      @relation(fields: [attribute_type_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "attribute_values_type_fkey")
+  variant_attributes variant_attributes[]
+
+  @@unique([attribute_type_id, value], map: "attribute_values_unique")
+  @@schema("public")
+}
+
+model product_variants {
+  id                 Int                  @id @default(autoincrement())
+  product_id         Int
+  sku                String?              @unique
+  price_modifier     Decimal?             @default(0) @db.Decimal
+  stock              Int                  @default(0)
+  is_active          Boolean?             @default(true)
+  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  order_items        order_items[]
+  products           products             @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "product_variants_product_fkey")
+  variant_attributes variant_attributes[]
+
+  @@schema("public")
+}
+
+model variant_attributes {
+  variant_id         Int
+  attribute_value_id Int
+  attribute_values   attribute_values @relation(fields: [attribute_value_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "variant_attributes_value_fkey")
+  product_variants   product_variants @relation(fields: [variant_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "variant_attributes_variant_fkey")
+
+  @@id([variant_id, attribute_value_id])
   @@schema("public")
 }
 

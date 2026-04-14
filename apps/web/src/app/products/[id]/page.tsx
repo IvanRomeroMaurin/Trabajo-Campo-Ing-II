@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }
   }
 
-  const stockDisponible = product.product_stocks?.filter(s => s.quantity > 0) ?? []
+  const stockDisponible = product.product_variants?.filter(v => v.stock > 0) ?? []
   
   // Calcular promedio para el resumen superior
   const averageRating = reviews.length > 0 
@@ -134,24 +134,31 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
             )}
 
-            {/* Sizes */}
+            {/* Variants / Selection */}
             {stockDisponible.length > 0 && (
               <div className="space-y-4">
                 <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-light">
-                  Seleccionar Talle
+                  Opciones disponibles
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {stockDisponible.map((stock) => (
-                    <button
-                      key={stock.id}
-                      className="min-w-[50px] h-[40px] border border-border flex items-center justify-center text-[10px] tracking-widest uppercase hover:border-foreground transition-colors"
-                    >
-                      {stock.size}
-                    </button>
-                  ))}
+                  {stockDisponible.map((variant) => {
+                    // Buscamos el valor principal a mostrar (talle, volumen, etc)
+                    const mainAttr = variant.variant_attributes?.[0]?.attribute_values
+                    const label = mainAttr ? `${mainAttr.value}` : 'Único'
+                    
+                    return (
+                      <button
+                        key={variant.id}
+                        className="min-w-[60px] h-[40px] border border-border px-3 flex items-center justify-center text-[10px] tracking-widest uppercase hover:border-foreground transition-colors"
+                      >
+                        {label}
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
             )}
+
 
             {/* CTA */}
             <div className="pt-4 space-y-4">

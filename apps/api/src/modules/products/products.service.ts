@@ -14,8 +14,18 @@ export class ProductsService {
         : undefined,
       include: {
         categories: true,
-        product_stocks: {
-          orderBy: { size: 'asc' }
+        product_variants: {
+          include: {
+            variant_attributes: {
+              include: {
+                attribute_values: {
+                  include: {
+                    attribute_types: true
+                  }
+                }
+              }
+            }
+          }
         }
       },
       orderBy: { created_at: 'desc' }
@@ -27,14 +37,25 @@ export class ProductsService {
       where: { id },
       include: {
         categories: true,
-        product_stocks: {
-          orderBy: { size: 'asc' }
+        product_variants: {
+          include: {
+            variant_attributes: {
+              include: {
+                attribute_values: {
+                  include: {
+                    attribute_types: true
+                  }
+                }
+              }
+            }
+          }
         }
       }
     })
     if (!record) throw new NotFoundException(`Product #${id} not found`)
     return record
   }
+
 
   create(dto: CreateProductDto) {
     return this.prisma.products.create({ data: dto as any })

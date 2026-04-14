@@ -18,6 +18,7 @@ export class CreateOrderItemDto implements Omit<OrderItem, 'id'> {
   price: number;
 
   @IsOptional()
-  @IsString()
-  size: string | null;
+  @IsNumber()
+  product_variant_id: number | null;
 }
+

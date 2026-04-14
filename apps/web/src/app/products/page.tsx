@@ -1,7 +1,7 @@
 import { productsService, categoriesService } from '@repo/api-client'
 import { ProductGrid } from '@/features/products/components/ProductGrid'
 import { CategoryFilter } from '@/features/products/components/CategoryFilter'
-import { Breadcrumb } from 'lucide-react' // Temporary placeholder for icon if needed
+
 
 interface ProductsPageProps {
   searchParams: Promise<{ category?: string }>

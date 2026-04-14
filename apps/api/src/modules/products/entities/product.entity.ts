@@ -1,15 +1,48 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Product as ProductInterface } from '@repo/types'
 
-export class ProductStock {
+export class AttributeType {
+  @ApiProperty({ example: 1 })
+  id: number
+
+  @ApiProperty({ example: 'Talle' })
+  name: string
+
+  @ApiProperty({ example: 'talle' })
+  slug: string
+}
+
+export class AttributeValue {
   @ApiProperty({ example: 1 })
   id: number
 
   @ApiProperty({ example: 'M' })
-  size: string
+  value: string
+
+  @ApiProperty({ type: () => AttributeType })
+  attribute_types: AttributeType
+}
+
+export class VariantAttribute {
+  @ApiProperty({ type: () => AttributeValue })
+  attribute_values: AttributeValue
+}
+
+export class ProductVariant {
+  @ApiProperty({ example: 1 })
+  id: number
+
+  @ApiProperty({ example: 'SKU-001' })
+  sku: string | null
+
+  @ApiProperty({ example: 0 })
+  price_modifier: number | null
 
   @ApiProperty({ example: 10 })
-  quantity: number
+  stock: number
+
+  @ApiProperty({ type: () => [VariantAttribute] })
+  variant_attributes: VariantAttribute[]
 }
 
 export class ProductCategory {
@@ -48,6 +81,7 @@ export class Product implements ProductInterface {
   @ApiProperty({ type: () => ProductCategory, nullable: true })
   categories?: ProductCategory | null
 
-  @ApiProperty({ type: () => [ProductStock] })
-  product_stocks?: ProductStock[]
+  @ApiProperty({ type: () => [ProductVariant] })
+  product_variants?: ProductVariant[]
 }
+

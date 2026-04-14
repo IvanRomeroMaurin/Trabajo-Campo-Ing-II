@@ -68,38 +68,6 @@ export interface paths {
         patch: operations["ProductsController_update"];
         trace?: never;
     };
-    "/api/product_stocks": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["ProductStocksController_findAll"];
-        put?: never;
-        post: operations["ProductStocksController_create"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/product_stocks/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: operations["ProductStocksController_findOne"];
-        put?: never;
-        post?: never;
-        delete: operations["ProductStocksController_remove"];
-        options?: never;
-        head?: never;
-        patch: operations["ProductStocksController_update"];
-        trace?: never;
-    };
     "/api/provinces": {
         parameters: {
             query?: never;
@@ -548,6 +516,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/product-variants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProductVariantsController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/product-variants/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ProductVariantsController_findOne"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attribute-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AttributeTypesController_findAll"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/attribute-types/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AttributeTypesController_findOne"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -576,13 +608,34 @@ export interface components {
             /** @example remeras */
             slug: string;
         };
-        ProductStock: {
+        AttributeType: {
+            /** @example 1 */
+            id: number;
+            /** @example Talle */
+            name: string;
+            /** @example talle */
+            slug: string;
+        };
+        AttributeValue: {
             /** @example 1 */
             id: number;
             /** @example M */
-            size: string;
+            value: string;
+            attribute_types: components["schemas"]["AttributeType"];
+        };
+        VariantAttribute: {
+            attribute_values: components["schemas"]["AttributeValue"];
+        };
+        ProductVariant: {
+            /** @example 1 */
+            id: number;
+            /** @example SKU-001 */
+            sku: Record<string, never>;
+            /** @example 0 */
+            price_modifier: Record<string, never>;
             /** @example 10 */
-            quantity: number;
+            stock: number;
+            variant_attributes: components["schemas"]["VariantAttribute"][];
         };
         Product: {
             /** @example 1 */
@@ -600,12 +653,10 @@ export interface components {
             /** @example 2026-04-10T00:00:00.000Z */
             created_at: string | null;
             categories: components["schemas"]["ProductCategory"] | null;
-            product_stocks: components["schemas"]["ProductStock"][];
+            product_variants: components["schemas"]["ProductVariant"][];
         };
         CreateProductDto: Record<string, never>;
         UpdateProductDto: Record<string, never>;
-        CreateProductStockDto: Record<string, never>;
-        UpdateProductStockDto: Record<string, never>;
         CreateProvinceDto: Record<string, never>;
         UpdateProvinceDto: Record<string, never>;
         CreateCityDto: Record<string, never>;
@@ -832,105 +883,6 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["UpdateProductDto"];
-            };
-        };
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    ProductStocksController_findAll: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    ProductStocksController_create: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CreateProductStockDto"];
-            };
-        };
-        responses: {
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    ProductStocksController_findOne: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    ProductStocksController_remove: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
-    ProductStocksController_update: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                id: string;
-            };
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["UpdateProductStockDto"];
             };
         };
         responses: {
@@ -2166,6 +2118,78 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["Category"];
                 };
+            };
+        };
+    };
+    ProductVariantsController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ProductVariantsController_findOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AttributeTypesController_findAll: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    AttributeTypesController_findOne: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

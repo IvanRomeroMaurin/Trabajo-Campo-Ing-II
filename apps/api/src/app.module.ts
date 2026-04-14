@@ -9,8 +9,8 @@ import configuration from './config/configuration';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './modules/users/users.module';
 import { ProductsModule } from './modules/products/products.module';
-import { ProductStocksModule } from './modules/product-stocks/product-stocks.module';
 import { ProvincesModule } from './modules/provinces/provinces.module';
+
 import { CitysModule } from './modules/cities/cities.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { OrderItemsModule } from './modules/order-items/order-items.module';
@@ -24,8 +24,11 @@ import { PaymentStatusesModule } from './modules/payment-statuses/payment-status
 import { OrderStatusesModule } from './modules/order-statuses/order-statuses.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { ProductVariantsModule } from './modules/product-variants/product-variants.module';
+import { AttributeTypesModule } from './modules/attribute-types/attribute-types.module';
 
 @Module({
+
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -35,8 +38,8 @@ import { CategoriesModule } from './modules/categories/categories.module';
     PrismaModule,
     UsersModule,
     ProductsModule,
-    ProductStocksModule,
     ProvincesModule,
+
     CitysModule,
     OrdersModule,
     OrderItemsModule,
@@ -50,7 +53,10 @@ import { CategoriesModule } from './modules/categories/categories.module';
     OrderStatusesModule,
     AuthModule,
     CategoriesModule,
+    ProductVariantsModule,
+    AttributeTypesModule,
   ],
+
   controllers: [AppController],
   providers: [AppService],
 })

@@ -228,137 +228,6 @@
         ]
       }
     },
-    "/api/product_stocks": {
-      "post": {
-        "operationId": "ProductStocksController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProductStockDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "tags": [
-          "product-stocks"
-        ]
-      },
-      "get": {
-        "operationId": "ProductStocksController_findAll",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "tags": [
-          "product-stocks"
-        ]
-      }
-    },
-    "/api/product_stocks/{id}": {
-      "get": {
-        "operationId": "ProductStocksController_findOne",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "tags": [
-          "product-stocks"
-        ]
-      },
-      "patch": {
-        "operationId": "ProductStocksController_update",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProductStockDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "tags": [
-          "product-stocks"
-        ]
-      },
-      "delete": {
-        "operationId": "ProductStocksController_remove",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          }
-        ],
-        "tags": [
-          "product-stocks"
-        ]
-      }
-    },
     "/api/provinces": {
       "post": {
         "operationId": "ProvincesController_create",
@@ -1987,6 +1856,80 @@
           "categories"
         ]
       }
+    },
+    "/api/product-variants": {
+      "get": {
+        "operationId": "ProductVariantsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "product-variants"
+        ]
+      }
+    },
+    "/api/product-variants/{id}": {
+      "get": {
+        "operationId": "ProductVariantsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "product-variants"
+        ]
+      }
+    },
+    "/api/attribute-types": {
+      "get": {
+        "operationId": "AttributeTypesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "attribute-types"
+        ]
+      }
+    },
+    "/api/attribute-types/{id}": {
+      "get": {
+        "operationId": "AttributeTypesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "attribute-types"
+        ]
+      }
     }
   },
   "info": {
@@ -2071,26 +2014,92 @@
           "slug"
         ]
       },
-      "ProductStock": {
+      "AttributeType": {
         "type": "object",
         "properties": {
           "id": {
             "type": "number",
             "example": 1
           },
-          "size": {
+          "name": {
             "type": "string",
-            "example": "M"
+            "example": "Talle"
           },
-          "quantity": {
-            "type": "number",
-            "example": 10
+          "slug": {
+            "type": "string",
+            "example": "talle"
           }
         },
         "required": [
           "id",
-          "size",
-          "quantity"
+          "name",
+          "slug"
+        ]
+      },
+      "AttributeValue": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "value": {
+            "type": "string",
+            "example": "M"
+          },
+          "attribute_types": {
+            "$ref": "#/components/schemas/AttributeType"
+          }
+        },
+        "required": [
+          "id",
+          "value",
+          "attribute_types"
+        ]
+      },
+      "VariantAttribute": {
+        "type": "object",
+        "properties": {
+          "attribute_values": {
+            "$ref": "#/components/schemas/AttributeValue"
+          }
+        },
+        "required": [
+          "attribute_values"
+        ]
+      },
+      "ProductVariant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "sku": {
+            "type": "object",
+            "example": "SKU-001"
+          },
+          "price_modifier": {
+            "type": "object",
+            "example": 0
+          },
+          "stock": {
+            "type": "number",
+            "example": 10
+          },
+          "variant_attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VariantAttribute"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "sku",
+          "price_modifier",
+          "stock",
+          "variant_attributes"
         ]
       },
       "Product": {
@@ -2135,10 +2144,10 @@
               }
             ]
           },
-          "product_stocks": {
+          "product_variants": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ProductStock"
+              "$ref": "#/components/schemas/ProductVariant"
             }
           }
         },
@@ -2151,7 +2160,7 @@
           "category_id",
           "created_at",
           "categories",
-          "product_stocks"
+          "product_variants"
         ]
       },
       "CreateProductDto": {
@@ -2159,14 +2168,6 @@
         "properties": {}
       },
       "UpdateProductDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "CreateProductStockDto": {
-        "type": "object",
-        "properties": {}
-      },
-      "UpdateProductStockDto": {
         "type": "object",
         "properties": {}
       },
