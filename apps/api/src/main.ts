@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+import { DomainExceptionFilter } from './common/filters/domain-exception.filter';
 import { writeFileSync } from 'fs';
 
 async function bootstrap() {
@@ -13,6 +14,8 @@ async function bootstrap() {
     whitelist: true,
     transform: true,
   }));
+  
+  app.useGlobalFilters(new DomainExceptionFilter());
 
   const config = new DocumentBuilder()
     .setTitle('API')

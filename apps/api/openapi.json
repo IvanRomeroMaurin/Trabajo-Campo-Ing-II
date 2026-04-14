@@ -3064,42 +3064,7 @@
       },
       "Category": {
         "type": "object",
-        "properties": {
-          "id": {
-            "type": "number",
-            "example": 1
-          },
-          "name": {
-            "type": "string",
-            "example": "Remeras"
-          },
-          "slug": {
-            "type": "string",
-            "example": "remeras"
-          },
-          "description": {
-            "type": "string",
-            "example": "Remeras y camisetas",
-            "nullable": true
-          },
-          "created_at": {
-            "type": "string",
-            "example": "2026-04-10T00:00:00.000Z",
-            "nullable": true
-          },
-          "is_active": {
-            "type": "boolean",
-            "example": true
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "description",
-          "created_at",
-          "is_active"
-        ]
+        "properties": {}
       },
       "CreateCategoryDto": {
         "type": "object",
